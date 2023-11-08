@@ -5,6 +5,7 @@
 *.DS_Store
 *.vscode
 */.gradle
+*.class
 build/
 
 # User-specific files
