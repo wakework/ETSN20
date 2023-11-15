@@ -15,39 +15,39 @@ import org.junit.Test;
  * class to this class.
  */
 public class EPtests {
-    private static Triangle triangle;
+	private static Triangle triangle;
+	
+	@BeforeClass
+	/*
+	 * The method run once before any of the test methods in the class.
+	 */
+	public static void setUpBeforeClass() throws Exception {
+		System.out.println("Initiating test phase.");
+	}
 
-    @BeforeClass
-    /*
-     * The method run once before any of the test methods in the class.
-     */
-    public static void setUpBeforeClass() throws Exception {
-        System.out.println("Initiating test phase.");
-    }
+	@AfterClass
+	/* 
+	 * The method will be run after all the tests in the class have been run
+	 */
+	public static void tearDownAfterClass() throws Exception {
+		System.out.println("Test phase finishing up.");
+	}
 
-    @AfterClass
-    /*
-     * The method will be run after all the tests in the class have been run
-     */
-    public static void tearDownAfterClass() throws Exception {
-        System.out.println("Test phase finishing up.");
-    }
+	@Before
+	/*
+	 * Initialises common objects. The method will be run before the Test method.
+	 */
+	public void setUp() throws Exception {
+		triangle = new Triangle(0, 0, 0);
+	}
 
-    @Before
-    /*
-     * Initialises common objects. The method will be run before the Test method.
-     */
-    public void setUp() throws Exception {
-        triangle = new Triangle(0, 0, 0);
-    }
-
-    @After
-    /*
-     * Cleanup method. This method will be run after the Test method is completed
-     */
-    public void tearDown() throws Exception {
-        triangle = null;
-    }
+	@After
+	/*
+	 *   Cleanup method. This method will be run after the Test method is completed
+	 */
+	public void tearDown() throws Exception {
+		triangle = null;
+	}
 
     /*
      * TC1: Equal sides. EC1 under test.
@@ -63,9 +63,18 @@ public class EPtests {
 
         assertTrue(triangle.isEquilateral());
     }
+    
+    /*
+     * TC2: Not equal sides. EC1 under test.
+     */
+    @Test
+    public void testEquilateral_whenAllSidesAreNotEqual_thenReturnInvalid() {
+        triangle.setSideLengths(10, 10, 5);
+        assertFalse(triangle.isEquilateral());
+    }
 
     /*
-     * TC2: Two equal sides. EC2 under test.
+     * TC3: Two equal sides. EC2 under test.
      * Note: Isosceles may be spelled wrong.
      */
     @Test
@@ -79,9 +88,18 @@ public class EPtests {
 
         assertTrue(triangle.isIsosceles());
     }
+    
+    /*
+     * TC4: Not two equal sides. EC2 under test.
+     */
+    @Test
+    public void testIsosceles_whenAllSidesAreNotEqual_thenReturnInvalid() {
+        triangle.setSideLengths(10, 9, 5);
+        assertFalse(triangle.isIsosceles());
+    }
 
     /*
-     * TC3: Right-angled triangle. EC3 under test.
+     * TC5: Right-angled triangle. EC3 under test.
      */
     @Test
     public void testRightAngled_whenOneAngleIs90_thenReturnValid() {
@@ -94,10 +112,19 @@ public class EPtests {
 
         assertTrue(triangle.isRightAngled());
     }
+    
+    /*
+     * TC6: Not an right-angled. EC3 under test.
+     */
+    @Test
+    public void testRightAngled_whenAllSidesIsNot90_thenReturnInvalid() {
+        triangle.setSideLengths(3, 4, 6);
+        assertFalse(triangle.isRightAngled());
+    }
 
     /*
-     * TC4: Scalene triangle. EC4 under test.
-     * Note: Could not calculate area when no sides are equal.
+     * TC7: Scalene triangle. EC4 under test.
+     * Note: Could not calculate area when no sides are equal. 
      * (3,4,6) should return an area.
      */
     @Test
@@ -111,9 +138,18 @@ public class EPtests {
 
         assertTrue(triangle.isScalene());
     }
+    
+    /*
+     * TC8: Not equal sides. EC4 under test.
+     */
+    @Test
+    public void testScalene_whenAllSidesAreEqual_thenReturnInvalid() {
+        triangle.setSideLengths(4, 4, 4);
+        assertFalse(triangle.isScalene());
+    }
 
     /*
-     * TC5: Not a triangle. EC5 under test.
+     * TC9: Not a triangle. EC5 under test.
      * Note: Area returned as NaN, not -1.0.
      */
     @Test
@@ -127,9 +163,18 @@ public class EPtests {
 
         assertTrue(triangle.isImpossible());
     }
-
+    
     /*
-     * TC6: Sides are 0. EC6 under test.
+     * TC10: Not equal sides. EC5 under test.
+     */
+    @Test
+    public void testNotTriangle_whenIsATriangle_thenReturnInvalid() {
+        triangle.setSideLengths(3, 4, 6);
+        assertFalse(triangle.isImpossible());
+    }
+    
+    /*
+     * TC11: Sides are 0. EC6 under test.
      */
     @Test
     public void testImpossible_whenSidesAre0_thenReturnInvalid() {
@@ -142,9 +187,9 @@ public class EPtests {
 
         assertTrue(triangle.isImpossible());
     }
-
+    
     /*
-     * TC7: Sides are negative. EC7 under test.
+     * TC12: Sides are negative. EC7 under test.
      */
     @Test
     public void testImpossible_whenSidesAreNegative_thenReturnInvalid() {
@@ -174,4 +219,5 @@ public class EPtests {
     void getSideLengthsOfTriangle(String expected) {
         assertEquals(expected, triangle.getSideLengths());
     }
+
 }

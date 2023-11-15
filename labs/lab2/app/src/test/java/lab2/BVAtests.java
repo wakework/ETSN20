@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * TriangleTest for testing the Triangle class.
@@ -14,9 +15,9 @@ import org.junit.BeforeClass;
  * class to this class.
  */
 public class BVAtests {
-    private static Triangle triangle;
+	private static Triangle triangle;
 
-	
+
 	@BeforeClass
 	/*
 	 * The method run once before any of the test methods in the class.
@@ -73,6 +74,9 @@ public class BVAtests {
     }
 
 
+	/*
+	 * Note: Wrong actual area.
+	 */
 	@Test
     public void testBVA_whenTwoSidesAreEqual_thenReturnValid() {
         triangle.setSideLengths(80, 80, 79);
@@ -122,11 +126,14 @@ public class BVAtests {
     /*---------------------------------Scalene---------------------------------*/
 
 
+	/*
+	 * Note: Wrong actual area.
+	 */
 	@Test
     public void testBVA_whenAllRandomSides_thenReturnValid() {
         triangle.setSideLengths(112, 102, 140);
 
-        getSideLengthsOfTriangle("124,102,140");
+        getSideLengthsOfTriangle("112,102,140");
         getAreaOfTriangle(6132.4);
         getPerimeterOfTriangle(366);
         classifyTriangle("scalene");
@@ -146,6 +153,9 @@ public class BVAtests {
     /*---------------------------------Impossible---------------------------------*/
 
 
+	/*
+	 * Note: Wrong actual area.
+	 */
 	@Test
     public void testBVA_whenImpossible_thenReturnValid() {
         triangle.setSideLengths(100, 101, 200);
@@ -159,28 +169,13 @@ public class BVAtests {
     }
 
 	@Test
-    public void testBVA_whenAllRandomSides_thenReturnInvalid() {
-        triangle.setSideLengths(112, 112, 189);
+    public void testBVA_whenImpossible_thenReturnInvalid() {
+        triangle.setSideLengths(100, 101, 201);
 
-        getSideLengthsOfTriangle("112,112,189");
+        getSideLengthsOfTriangle("100,101,201");
 
         assertFalse(triangle.isImpossible());
     }
-
-	/* 
-	 * Tests whether the triangle specified in the fixture (setUp) 
-	 * is right-angled. 	
-	 *
-	 * A public void method that is attached to be run as a test case. 
-	 * To run the method, JUnit first constructs a fresh instance of the class then 
-	 * invokes the annotated method. Any exceptions thrown by the test will be reported
-	 * by JUnit as a failure. If no exceptions are thrown, the test is assumed to have 
-	 * succeeded. 
-	*/
-    void dummyTest() {
-        assertTrue("This is a dummy test", false);
-    }
-
 
     /*---------------------------------HELPER METHODS---------------------------------*/
     void classifyTriangle(String expected) {
@@ -198,4 +193,5 @@ public class BVAtests {
     void getSideLengthsOfTriangle(String expected) {
         assertEquals(expected, triangle.getSideLengths());
     }
+
 }
