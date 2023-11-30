@@ -7,19 +7,18 @@ import java.util.Scanner;
 
 public class App {
         public static void main(String[] args) {
-        if (args.length < 3) {
-            System.out.println("Usage: java SearchApp <pattern> <file>. Please try again.");
-            return;
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < args.length - 1; i++) {
+            sb.append(args[i]);
+            sb.append(" ");
         }
 
-        String pattern = args[1];
-        String filePath = args[2];
-
-        try (Scanner scanner = new Scanner(SearchApp.class.getClassLoader().getResource(filePath).toURI())) {
+        try (Scanner scanner = new Scanner(SearchApp.class.getClassLoader().getResource(args[args.length - 1]).toURI())) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
 
-                if (line.contains(" " + pattern + " ")) {
+                if (line.contains(" " + sb.toString() + " ")) {
                     System.out.println(line);
                     System.out.println();
                 }
